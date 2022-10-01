@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ad extends Model
-{
-    protected $fillable  = ['title', 'price', 'body'];
+class Category extends Model
+{   
+    protected $fillable = ['name'];
     use HasFactory;
 }

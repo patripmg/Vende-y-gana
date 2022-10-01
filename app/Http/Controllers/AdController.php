@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class AdController extends Controller
 {
     public function create() {
-        return ('ads.create');
+        return view('ads.create');
     }
 
     public function __construct()
