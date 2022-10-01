@@ -2,32 +2,41 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Models\Ad;
+use Livewire\Component;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CreateAd extends Component
 {
     public $title;
     public $price;
     public $body;
+    public $category;
 
     protected $rules = [ //al usar livewire no se hace con request
         'title'=>'required|min:4',
         'body'=>'required|min:8',
+        'category'=>'required',
         'price'=>'required|numeric',
+        
     ];
     protected $messages = [
-        'required'=> 'Field :attribute is required, please fill it',
-        'min'=>'Field :attribute should be longer than :min',
-        'numeric'=>'Field :attribute must be a number'
+        'required'=> 'Este campo es obligatorio',
+        'min'=>'El campo debe tener más de :min carácteres',
+        'numeric'=>'Debe introducir un número'
     ];
 
     public function store() {
-        Ad::create([
+
+        $category = Category::find($this->category);
+        $ad = $category->ads()->create([
             'title'=>$this->title,
             'body'=>$this->body,
             'price'=>$this->price,
         ]);
+        Auth::user()->ads()->save($ad);
+      
         session()->flash('message', 'Anuncio creado con éxito');
         
         $this->cleanForm(); //esto borra el formulario una vez creado el anuncio
@@ -41,6 +50,7 @@ class CreateAd extends Component
         $this->title = "";
         $this->body = "";
         $this->price = "";
+        $this->category = "";
     }
     //El comportamiento de cleanForm es muy sencillo, accede a cada propiedad y le asigna una cadena vacía.
 

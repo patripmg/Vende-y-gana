@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {   
     protected $fillable = ['name'];
+
+    public function ads() {
+        return $this->hasMany(Ad::class); //tiene muchos anuncios
+    }
     use HasFactory;
 }
